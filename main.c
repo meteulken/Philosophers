@@ -39,7 +39,7 @@ void* philo_die(void* arg) {
     while (i <= data->time_die) {
      pthread_mutex_lock(&mutex);
         printf("%d philo die \n", i);
-        usleep(3000);
+        usleep(3005);
         i++;
         pthread_mutex_unlock(&mutex);
     }
