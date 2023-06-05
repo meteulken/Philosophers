@@ -9,7 +9,7 @@ void* philo_eating(void* arg) {
  
     while (i <= data->time_eat) {
     pthread_mutex_lock(&mutex);
-        printf("%d philo eat \n", i);
+        printf("%d philo is eating \n", i);
         usleep(3000);
         i++;
         pthread_mutex_unlock(&mutex);
@@ -24,7 +24,7 @@ void* philo_sleep(void* arg) {
     int i = 0;
     while (i <= data->time_sleep) {
      pthread_mutex_lock(&mutex);
-        printf("%d philo sleep \n", i);
+        printf("%d philo is sleeping \n", i);
         usleep(3000);
         i++;
         pthread_mutex_unlock(&mutex);
@@ -38,7 +38,7 @@ void* philo_die(void* arg) {
     int i = 0;
     while (i <= data->time_die) {
      pthread_mutex_lock(&mutex);
-        printf("%d philo die \n", i);
+        printf("%d philo is die \n", i);
         usleep(3005);
         i++;
         pthread_mutex_unlock(&mutex);
