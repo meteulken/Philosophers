@@ -47,19 +47,28 @@ void* philo_die(void* arg) {
 }
 
 void philo_init(philo_d* data) {
-    pthread_t philo1;
-    pthread_t philo2;
-    pthread_t philo3;
 
- pthread_mutex_init(&mutex,NULL);
-    pthread_create(&philo1, NULL, philo_eating, (void*)data);
-    pthread_create(&philo2, NULL, philo_sleep, (void*)data);
-    pthread_create(&philo3, NULL, philo_die, (void*)data);
+	int i = 0;
+	int j;
+	j = data->philo_num;
+    pthread_t philo[j];
 
-    pthread_join(philo1, NULL);
-    pthread_join(philo2, NULL);
-    pthread_join(philo3, NULL);
-    
+ 	pthread_mutex_init(&mutex,NULL);
+ 	while(i <= j)
+ 	{
+    	pthread_create(philo + i, NULL, philo_eating, (void*)data);
+    	i++;
+    	}
+    //pthread_create(&philo2, NULL, philo_sleep, (void*)data);
+    //pthread_create(&philo3, NULL, philo_die, (void*)data);
+
+	while(i <= j)
+	{
+    pthread_join(philo[i], NULL);
+   // pthread_join(philo2, NULL);
+    //pthread_join(philo3, NULL);
+    	i++;
+    	}
         pthread_mutex_destroy(&mutex);
 }
 
