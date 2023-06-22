@@ -22,7 +22,7 @@ Philosophers Problem Solution in C
         Mutex, aynı anda yalnızca bir iş parçacığının belirli bir kaynağı veya kritik bölgeyi kullanmasına izin verir.
         Diğer iş parçacıkları, mutex'in kilidini açana kadar beklemek zorundadır.
         Böylece, veri bütünlüğü korunur ve yarış koşulları önlenir.
-        Mutex, kilitleme ve kilidi açma işlemlerini destekler ve paylaşılan veri yapılarının güvenli bir şekilde erişilmesini sağlar.
+        Kilitleme ve kilidi açma işlemlerini destekler ve paylaşılan veri yapılarının güvenli bir şekilde erişilmesini sağlar.
 
 
     
