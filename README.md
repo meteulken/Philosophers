@@ -17,8 +17,8 @@ Philosophers Problem Solution in C
         Birden çok iş parçacığı, aynı işlem içinde eşzamanlı olarak çalışabilir.
         İş parçacıkları, daha hızlı ve etkili çoklu görev yapısını sağlamak için kullanılır.
 
-    Mutex;
-        Mutex, çoklu iş parçacığı programlamasında paralel işlemler arasında senkronizasyon sağlamak için kullanılan bir senkronizasyon aracıdır.
+    Mutex
+        Mutex, çoklu iş parçacığı programlamasında paralel işlemler arasında senkronizasyon sağlamak için kullanılır.
         Mutex, aynı anda yalnızca bir iş parçacığının belirli bir kaynağı veya kritik bölgeyi kullanmasına izin verir.
         Diğer iş parçacıkları, mutex'in kilidini açana kadar beklemek zorundadır.
         Böylece, veri bütünlüğü korunur ve yarış koşulları önlenir.
