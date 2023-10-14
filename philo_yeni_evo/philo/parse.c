@@ -52,7 +52,7 @@ t_table	*parse(int ac, char **av)
 	if (ac == 6)
 		table->number_of_must_eat = unsigned_atoi(av[5]);
 	table->philos = malloc(sizeof(t_philo) * table->number_of_philos);
-	if (table->philos)
+	if (!table->philos)
 		return (NULL);
 	table->forks = malloc(sizeof(pthread_mutex_t) * table->number_of_philos);
 	if (!table->forks)
