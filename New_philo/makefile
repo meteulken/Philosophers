@@ -1,7 +1,7 @@
 NAME = philo
 
 CC = gcc
-CFLAGS = -Wall -Wextra -pthread
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread
 
 SRC = philo.c philo_utils.c ./mallocCollector/mallocCollector.c
 

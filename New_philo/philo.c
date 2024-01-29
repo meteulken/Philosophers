@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:23:58 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/28 15:48:03 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/29 03:54:08 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,12 @@ int start_philo(t_philo *philo)
         i++;
     }
     printf("philo started\n");
+    i = 0;
+    while(i < philo->num_of_philo)
+    {
+        pthread_join(philo->philo_data[i].thread, NULL);
+        i++;
+    }
     return (0);
 }
 
@@ -167,7 +173,6 @@ int init_philo(t_philo *philo, char *argv[], int argc)
 int main(int argc, char *argv[])
 {
     t_philo *philo;
-    t_mallocCollector *mc;
     
     if (argc > 6 || argc < 5)
     {
