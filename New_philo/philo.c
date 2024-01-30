@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:23:58 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 12:01:14 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:23:22 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,56 +64,85 @@ void *philo_die_control(void *arg)
     while(i < philo->num_of_philo)
     {
         pthread_mutex_lock(philo->die);
-       
-        printf("philo_start_time: %llu\n", philo->philo_data[i].start_time);
+        pthread_mutex_lock(philo->sleep);
+        //printf("philo_start_time: %lu\n", philo->philo_data[i].time_to_start);
         time = get_time_for_philo();
-        if(time - philo->philo_data[i].start_time > philo->time_to_die)
+        if(time - philo->philo_data[i].time_to_start > philo->time_to_die)
         {
-            pthread_mutex_lock(philo->sleep);
+            printf("test\n") ;
             print_philo(&philo->philo_data[i], "died", philo);
-            philo->is_dead = 1;
+            pthread_mutex_lock(&philo->die_mutex);
+            philo->is_dead = 0;
+            pthread_mutex_unlock(&philo->die_mutex);
+            pthread_mutex_unlock(philo->die);
             pthread_mutex_unlock(philo->sleep);
             return (NULL);
-        }   
+        }
+        else
+            pthread_mutex_unlock(philo->sleep);
         pthread_mutex_unlock(philo->die);  
-       
         i++;
     }
     return (NULL);
 }
 
-void *philo_routine(void *arg)
+void philo_eat(t_philo_data *philo_data)
 {
-    t_philo_data *philo_data;
-    philo_data = (t_philo_data *)arg;
-    if(philo_data->id % 2 == 0)
-        ft_usleep(200);
-    while(philo_data->philo->is_dead == 0)
-    {
+    pthread_mutex_lock(philo_data->right_fork);
+    print_philo(philo_data, "has taken a fork", philo_data->philo);
+    pthread_mutex_lock(philo_data->left_fork);
+    print_philo(philo_data, "has taken a fork", philo_data->philo);
+    print_philo(philo_data, "is eating", philo_data->philo);
+    ft_usleep(philo_data->philo->time_to_eat);
     pthread_mutex_lock(philo_data->philo->eat);
     if(philo_data->must_eat != -1)
         philo_data->must_eat--;
     if(philo_data->must_eat == 0)
     {
         pthread_mutex_unlock(philo_data->philo->eat);
-        break;
+        philo_data->philo->is_dead = 0;
+        return ;
     }
-        pthread_mutex_unlock(philo_data->philo->eat);
-        pthread_mutex_lock(philo_data->left_fork);
-        print_philo(philo_data, "has taken a fork", philo_data->philo);
-        pthread_mutex_lock(philo_data->right_fork);
-        print_philo(philo_data, "has taken a fork", philo_data->philo);
-        print_philo(philo_data, "is eating", philo_data->philo);
-        ft_usleep(philo_data->philo->time_to_eat);
-        pthread_mutex_lock(philo_data->philo->sleep);
-        print_philo(philo_data, "is sleeping", philo_data->philo);
-        ft_usleep(philo_data->philo->time_to_sleep);
-        print_philo(philo_data, "is thinking", philo_data->philo);
-        philo_data->start_time = get_time_for_philo();
-        pthread_mutex_unlock(philo_data->philo->sleep);
-        pthread_mutex_unlock(philo_data->right_fork);
-        pthread_mutex_unlock(philo_data->left_fork);
-    }
+    pthread_mutex_lock(philo_data->philo->sleep);
+    philo_data->time_to_start = get_time_for_philo();
+    pthread_mutex_unlock(philo_data->philo->sleep);
+    pthread_mutex_unlock(philo_data->philo->eat);
+    pthread_mutex_unlock(philo_data->left_fork);
+    pthread_mutex_unlock(philo_data->right_fork);
+}
+
+void philo_sleep(t_philo_data *philo_data)
+{
+    print_philo(philo_data, "is sleeping", philo_data->philo);
+    ft_usleep(philo_data->philo->time_to_sleep);
+}
+
+void philo_think(t_philo_data *philo_data)
+{
+    print_philo(philo_data, "is thinking", philo_data->philo);
+}
+
+
+void *philo_routine(void *arg)
+{
+    t_philo_data *philo_data;
+    philo_data = (t_philo_data *)arg;
+    int check;
+    check = 1;
+    
+    if(philo_data->id % 2 == 0)
+        ft_usleep(20);
+    while(check)
+    {
+        pthread_mutex_lock(&philo_data->philo->die_mutex);
+        check = philo_data->philo->is_dead;
+        pthread_mutex_unlock(&philo_data->philo->die_mutex);
+        if(check == 0)
+            break;
+		philo_eat(philo_data);
+		philo_sleep(philo_data);
+		philo_think(philo_data);
+	}
     return (NULL);
 }
 
@@ -141,7 +170,7 @@ int main(int argc, char *argv[])
 {
     t_philo *philo;
     t_philo_data *philo_data;
-    
+    (void)philo_data;
     if (argc > 6 || argc < 5)
     {
         write(1, "Error: Wrong number of arguments\n", 33);

@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:39:44 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 11:11:38 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:18:36 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,13 @@ int	ft_usleep(u_int64_t t)
 
 void print_philo(t_philo_data *philo_data, char *str, t_philo *philo)
 {
+	u_int64_t time;
+
+	time = time_from_start(philo);
     pthread_mutex_lock(philo->print);
-    printf("%llu %d %s\n", time_from_start(philo_data->philo), philo_data->id, str);
+	pthread_mutex_lock(&philo->die_mutex);
+	if(philo->is_dead == 1)
+    	printf("%lu %d %s\n", time, philo_data->id, str);
+	pthread_mutex_unlock(&philo->die_mutex);
     pthread_mutex_unlock(philo->print);
 }

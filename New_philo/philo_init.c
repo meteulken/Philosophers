@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:09:39 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 11:11:03 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:24:46 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,22 @@ int init_philo_data(t_philo *philo)
     }
     i = 1;
     philo->philo_data = (t_philo_data *)new_malloc(philo->mc, sizeof(t_philo_data) * philo->num_of_philo);
-    
+    /*
     philo->philo_data[0].left_fork = &philo->forks[philo->num_of_philo - 1];
     philo->philo_data[0].right_fork = &philo->forks[0];
     while (i < philo->num_of_philo)
     {
         philo->philo_data[i].left_fork = &philo->forks[i];
         philo->philo_data[i].right_fork = &philo->forks[i + 1];
+        i++;
+    }
+    */
+   philo->philo_data[i].left_fork = &philo->forks[0];
+   philo->philo_data[i].right_fork = &philo->forks[philo->num_of_philo - 1];
+    while(i < philo->num_of_philo)
+    {
+        philo->philo_data[i].left_fork = &philo->forks[i];
+        philo->philo_data[i].right_fork = &philo->forks[i - 1];
         i++;
     }
     //printf("philo_data init\n");
@@ -54,7 +63,7 @@ int init_philo(t_philo *philo, char *argv[], int argc)
     else
         philo->eat_count = -1;
     philo->start_time = get_time_for_philo();
-    philo->is_dead = 0;
+    philo->is_dead = 1;
     philo->is_eating = 0;
     philo->is_sleeping = 0;
     philo->is_thinking = 0;
@@ -81,6 +90,8 @@ int init_philo_mutex(t_philo *philo)
     pthread_mutex_init(philo->sleep, NULL);
     pthread_mutex_init(philo->think, NULL);
     pthread_mutex_init(philo->die, NULL);
+    pthread_mutex_init(&philo->die_mutex, NULL);
+    pthread_mutex_init(&philo->eat_last, NULL);
     //pthread_mutex_init(philo->philo_data->print, NULL);
     
     return (0);

@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:24:01 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 11:12:52 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/30 14:03:19 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,8 @@ typedef struct s_philo
     t_philo_data *philo_data;
     pthread_mutex_t *print;
     pthread_mutex_t *die;
+    pthread_mutex_t die_mutex;
+    pthread_mutex_t eat_last;
     pthread_mutex_t *eat;
     pthread_mutex_t *sleep;
     pthread_mutex_t *think;
