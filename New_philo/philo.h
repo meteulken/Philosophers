@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:24:01 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/28 15:47:44 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/30 01:05:34 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,16 @@ typedef struct s_philo_data
 {
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
+    pthread_mutex_t *print;
     int id;
     pthread_t thread;
     u_int64_t time_to_die;
     u_int64_t time_to_eat;
     u_int64_t time_to_sleep;
+    u_int64_t time_to_start;
     u_int64_t start_time;
+    int must_eat;
+    int philo_die;
     struct s_philo *philo;
 }t_philo_data;
 
@@ -49,11 +53,13 @@ typedef struct s_philo
     int is_thinking;
     t_philo_data *philo_data;
     pthread_mutex_t *print;
+    pthread_mutex_t *die;
     pthread_mutex_t *eat;
     pthread_mutex_t *sleep;
     pthread_mutex_t *think;
     pthread_mutex_t *forks;
     pthread_t thread;
+    pthread_t thread2;
     t_mallocCollector *mc;
 }t_philo;
 
@@ -68,6 +74,7 @@ int init_philo_data(t_philo *philo);
 int init_philo(t_philo *philo, char *argv[], int argc);
 int ft_usleep(u_int64_t t);
 void *philo_routine(void *arg);
-
+uint64_t	time_from_start(t_philo *philo);
+int get_time_for_philo();
 
 #endif

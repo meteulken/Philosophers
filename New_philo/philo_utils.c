@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:39:44 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/28 15:38:27 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/29 18:54:43 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ int	ft_atoi(const char *nptr)
 		indx++;
 	}
 	return ((ret * sign));
+}
+
+uint64_t	time_from_start(t_philo *philo)
+{
+	return (get_time_for_philo() - philo->start_time);
 }
 
 int get_time_for_philo()
