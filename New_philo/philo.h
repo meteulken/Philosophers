@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:24:01 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 01:05:34 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/30 11:12:52 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,9 @@ int ft_usleep(u_int64_t t);
 void *philo_routine(void *arg);
 uint64_t	time_from_start(t_philo *philo);
 int get_time_for_philo();
+void print_philo(t_philo_data *philo_data, char *str, t_philo *philo);
+int start_philo(t_philo *philo);
+void *philo_die_control(void *arg);
+
 
 #endif

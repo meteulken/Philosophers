@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:39:44 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/29 18:54:43 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/30 11:11:38 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,11 @@ int	ft_usleep(u_int64_t t)
 	while ((get_time_for_philo() - start) < t)
 		usleep(t / 10);
 	return (0);
+}
+
+void print_philo(t_philo_data *philo_data, char *str, t_philo *philo)
+{
+    pthread_mutex_lock(philo->print);
+    printf("%llu %d %s\n", time_from_start(philo_data->philo), philo_data->id, str);
+    pthread_mutex_unlock(philo->print);
 }

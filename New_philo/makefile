@@ -3,7 +3,7 @@ NAME = philo
 CC = gcc
 CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
 
-SRC = philo.c philo_utils.c ./mallocCollector/mallocCollector.c
+SRC = philo.c philo_utils.c philo_init.c ./mallocCollector/mallocCollector.c
 
 OBJ = $(SRC:.c=.o)
 
