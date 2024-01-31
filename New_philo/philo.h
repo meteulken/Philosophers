@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:24:01 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 14:03:19 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/31 09:19:35 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_philo_data
     u_int64_t time_to_start;
     u_int64_t start_time;
     int must_eat;
+    int eat_count;
     int philo_die;
     struct s_philo *philo;
 }t_philo_data;
@@ -80,7 +81,6 @@ uint64_t	time_from_start(t_philo *philo);
 int get_time_for_philo();
 void print_philo(t_philo_data *philo_data, char *str, t_philo *philo);
 int start_philo(t_philo *philo);
-void *philo_die_control(void *arg);
-
+int philo_die_control(void *arg);
 
 #endif

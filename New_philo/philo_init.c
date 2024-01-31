@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:09:39 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 14:24:46 by mulken           ###   ########.fr       */
+/*   Updated: 2024/01/31 08:36:04 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int init_philo_data(t_philo *philo)
         }
         i++;   
     }
-    i = 1;
+    i = 0;
     philo->philo_data = (t_philo_data *)new_malloc(philo->mc, sizeof(t_philo_data) * philo->num_of_philo);
-    /*
+    
     philo->philo_data[0].left_fork = &philo->forks[philo->num_of_philo - 1];
     philo->philo_data[0].right_fork = &philo->forks[0];
     while (i < philo->num_of_philo)
@@ -39,7 +39,7 @@ int init_philo_data(t_philo *philo)
         philo->philo_data[i].right_fork = &philo->forks[i + 1];
         i++;
     }
-    */
+   /*
    philo->philo_data[i].left_fork = &philo->forks[0];
    philo->philo_data[i].right_fork = &philo->forks[philo->num_of_philo - 1];
     while(i < philo->num_of_philo)
@@ -48,6 +48,7 @@ int init_philo_data(t_philo *philo)
         philo->philo_data[i].right_fork = &philo->forks[i - 1];
         i++;
     }
+    */
     //printf("philo_data init\n");
     return 0;
 }
