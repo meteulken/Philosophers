@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:24:01 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/31 09:19:35 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/01 07:51:36 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,9 @@ typedef struct s_philo_data
 {
     pthread_mutex_t *left_fork;
     pthread_mutex_t *right_fork;
-    pthread_mutex_t *print;
     int id;
     pthread_t thread;
-    u_int64_t time_to_die;
-    u_int64_t time_to_eat;
-    u_int64_t time_to_sleep;
     u_int64_t time_to_start;
-    u_int64_t start_time;
     int must_eat;
     int eat_count;
     int philo_die;
@@ -53,16 +48,15 @@ typedef struct s_philo
     int is_sleeping;
     int is_thinking;
     t_philo_data *philo_data;
-    pthread_mutex_t *print;
-    pthread_mutex_t *die;
+    pthread_mutex_t print;
+    pthread_mutex_t die;
     pthread_mutex_t die_mutex;
     pthread_mutex_t eat_last;
-    pthread_mutex_t *eat;
-    pthread_mutex_t *sleep;
-    pthread_mutex_t *think;
+    pthread_mutex_t eat;
+    pthread_mutex_t sleep;
+    pthread_mutex_t think;
     pthread_mutex_t *forks;
     pthread_t thread;
-    pthread_t thread2;
     t_mallocCollector *mc;
 }t_philo;
 

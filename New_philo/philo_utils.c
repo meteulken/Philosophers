@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:39:44 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/30 14:18:36 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/01 07:58:19 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,6 @@
 #include <sys/time.h>
 #include <unistd.h>
 #include <stdlib.h>
-
-int	ft_atoi(const char *nptr)
-{
-	int	indx;
-	int	ret;
-	int	sign;
-
-	indx = 0;
-	ret = 0;
-	sign = 1;
-	while (nptr[indx] == ' ' || (nptr[indx] >= 9 && nptr[indx] <= 13))
-		indx++;
-	if (nptr[indx] == '+' || nptr[indx] == '-')
-	{
-		if (nptr[indx] == '-')
-			sign *= -1;
-		indx++;
-	}
-	while (nptr[indx] >= '0' && nptr[indx] <= '9')
-	{
-		ret = nptr[indx] - 48 + ret * 10;
-		indx++;
-	}
-	return ((ret * sign));
-}
 
 uint64_t	time_from_start(t_philo *philo)
 {
@@ -67,10 +42,11 @@ void print_philo(t_philo_data *philo_data, char *str, t_philo *philo)
 	u_int64_t time;
 
 	time = time_from_start(philo);
-    pthread_mutex_lock(philo->print);
+    pthread_mutex_lock(&philo->print);
 	pthread_mutex_lock(&philo->die_mutex);
 	if(philo->is_dead == 1)
     	printf("%lu %d %s\n", time, philo_data->id, str);
 	pthread_mutex_unlock(&philo->die_mutex);
-    pthread_mutex_unlock(philo->print);
+    pthread_mutex_unlock(&philo->print);
 }
+
