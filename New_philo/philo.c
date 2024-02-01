@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:23:58 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/01 08:23:48 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/01 08:41:59 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 #include <stdlib.h>
 #include "philo.h"
 #include "./mallocCollector/mallocCollector.h"
-
 
 void philo_eat(t_philo_data *philo_data)
 {
@@ -35,25 +34,20 @@ void philo_eat(t_philo_data *philo_data)
     pthread_mutex_unlock(philo_data->right_fork);
 }
 
-void philo_sleep(t_philo_data *philo_data)
+void philo_sleep_think(t_philo_data *philo_data)
 {
     print_philo(philo_data, "is sleeping", philo_data->philo);
     ft_usleep(philo_data->philo->time_to_sleep);
-}
-
-void philo_think(t_philo_data *philo_data)
-{
     print_philo(philo_data, "is thinking", philo_data->philo);
 }
-
 
 void *philo_routine(void *arg)
 {
     t_philo_data *philo_data;
-    philo_data = (t_philo_data *)arg;
     int check;
+
+    philo_data = (t_philo_data *)arg;
     check = 1;
-    
     if(philo_data->id % 2 == 0)
         ft_usleep(10);
     while(check)
@@ -64,8 +58,7 @@ void *philo_routine(void *arg)
         if(check == 0)
             break;
 		philo_eat(philo_data);
-		philo_sleep(philo_data);
-		philo_think(philo_data);
+		philo_sleep_think(philo_data);
 	}
     return (NULL);
 }
@@ -83,16 +76,15 @@ int start_philo(t_philo *philo)
     if(!philo_die_control(philo))
     {
         pthread_mutex_lock(&philo->die_mutex);
-        philo->is_dead = 0;
+        philo->philo_data->philo->is_dead = 0;
         pthread_mutex_unlock(&philo->die_mutex);
     }
-    return (0);
+    return (-1);
 }
 
 int main(int argc, char *argv[])
 {
     t_philo *philo;
-    int i;
 
     if (argc > 6 || argc < 5)
         return (write(1, "Error: Wrong number of arguments\n", 33), 1);
@@ -110,9 +102,6 @@ int main(int argc, char *argv[])
     if(!philo->forks)
         return (end_malloc(philo->mc), free(philo), 1);
     if(init_philo_data(philo) == -1)
-        return (end_malloc(philo->mc), free(philo), 1);
-    i = -1;
-    while(i++ < philo->num_of_philo)
-        pthread_join(philo->philo_data[i].thread, NULL);
+        return (philo_die_all(philo), end_malloc(philo->mc), free(philo), 1);
     return 0;
 }

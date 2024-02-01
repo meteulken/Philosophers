@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo2.c                                           :+:      :+:    :+:   */
+/*   philo_die.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 07:58:59 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/01 07:59:14 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/01 08:38:41 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,9 @@ int	must_eating_check(t_philo *philo)
 	return (1);
 }
 
-int philo_die_control(void *arg)
+int philo_die_control(t_philo *philo)
 {
     int i;
-    t_philo *philo;
-    philo = (t_philo *)arg;
     uint64_t time;
 
     i = 0;
@@ -53,7 +51,7 @@ int philo_die_control(void *arg)
             {
                 print_philo(&philo->philo_data[i], "died", philo);
                 pthread_mutex_lock(&philo->die_mutex);
-                philo->is_dead = 0;
+                philo->philo_data->philo->is_dead = 0;
                 pthread_mutex_unlock(&philo->die_mutex);
                 pthread_mutex_unlock(&philo->die);
                 return (0);
@@ -67,4 +65,32 @@ int philo_die_control(void *arg)
 			break ;
     }
     return (1);
+}
+
+int philo_die_all(t_philo *philo)
+{
+    int i;
+
+    i = 0;
+    while(i < philo->num_of_philo)
+    {
+        if (philo->num_of_philo == 1)
+			pthread_detach(philo->philo_data[i].thread);
+        pthread_join(philo->philo_data[i].thread, NULL);
+        i++;
+    }
+    pthread_mutex_destroy(&philo->print);
+    pthread_mutex_destroy(&philo->eat);
+    pthread_mutex_destroy(&philo->sleep);
+    pthread_mutex_destroy(&philo->think);
+    pthread_mutex_destroy(&philo->die);
+    pthread_mutex_destroy(&philo->die_mutex);
+    pthread_mutex_destroy(&philo->eat_last);
+    i = 0;
+    while(i < philo->num_of_philo)
+    {
+        pthread_mutex_destroy(&philo->forks[i]);
+        i++;
+    }
+    return (0);
 }
