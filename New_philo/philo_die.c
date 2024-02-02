@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/01 07:58:59 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/03 01:42:04 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/03 02:50:31 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	philo_die_control(t_philo *philo)
 		if (must_eating_check(philo))
 			break ;
 	}
-	return (1);
+	return (0);
 }
 
 int	philo_die_all(t_philo *philo)

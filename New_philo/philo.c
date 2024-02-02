@@ -6,15 +6,12 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:23:58 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/03 01:43:56 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/03 02:56:26 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
 #include "philo.h"
-#include "./mallocCollector/mallocCollector.h"
 
 void	philo_eat(t_philo_data *philo_data)
 {
@@ -50,6 +47,12 @@ void	*philo_routine(void *arg)
 	int				check;
 
 	philo_data = (t_philo_data *)arg;
+	if (philo_data->philo->num_of_philo == 1)
+	{
+		pthread_mutex_lock(philo_data->right_fork);
+		print_philo(philo_data, "has taken a fork", philo_data->philo);
+		return (NULL);
+	}
 	check = 1;
 	if (philo_data->id % 2 == 0)
 		ft_usleep(10);

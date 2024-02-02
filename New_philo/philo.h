@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:24:01 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/03 01:56:35 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/03 02:58:35 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 # define PHILO_H
 
 # include <pthread.h>
-# include <sys/time.h>
-# include <stdio.h>
-# include <unistd.h>
 # include <stdlib.h>
-# include <stdint.h>
 # include "./mallocCollector/mallocCollector.h"
 
 typedef struct s_philo_data
@@ -46,7 +42,6 @@ typedef struct s_philo
 	int					is_dead;
 	int					is_eating;
 	int					is_sleeping;
-	int					is_thinking;
 	t_philo_data		*philo_data;
 	pthread_mutex_t		print;
 	pthread_mutex_t		die;
@@ -64,7 +59,6 @@ typedef struct s_philo
 int			ft_atoi(const char *nptr);
 int			get_time_for_philo(void);
 int			argument_control(char *argv[]);
-int			init_philo_forks(t_philo *philo);
 int			init_philo_mutex(t_philo *philo);
 int			init_philo_data_helper(t_philo *philo);
 int			init_philo_data(t_philo *philo);
@@ -79,5 +73,6 @@ int			philo_die_control(t_philo *philo);
 int			philo_die_all(t_philo *philo);
 int			destroy_philo_forks(t_philo *philo, int count);
 int			philo_die_control_helper(t_philo *philo, int i);
+int			must_eating_check(t_philo *philo);
 
 #endif

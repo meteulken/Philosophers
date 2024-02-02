@@ -1,7 +1,7 @@
 NAME = philo
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -pthread -fsanitize=thread
-SRC = philo.c philo_die.c philo_utils.c philo_utils2.c philo_init.c philo_init2.c ./mallocCollector/mallocCollector.c
+CFLAGS = -Wall -Wextra -Werror -pthread #-fsanitize=thread
+SRC = philo.c philo_die.c philo_utils.c philo_init.c philo_init2.c ./mallocCollector/mallocCollector.c
 
 OBJDIR := objs
 OBJ := $(SRC:%.c=$(OBJDIR)/%.o)

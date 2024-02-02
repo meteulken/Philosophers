@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:09:39 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/03 01:45:44 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/03 02:49:18 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,6 @@ int	init_philo(t_philo *philo, char *argv[], int argc)
 	philo->start_time = get_time_for_philo();
 	philo->is_dead = 1;
 	philo->is_eating = 0;
-	philo->is_sleeping = 0;
-	philo->is_thinking = 0;
 	return (0);
 }
 
