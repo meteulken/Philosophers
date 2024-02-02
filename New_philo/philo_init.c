@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:09:39 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/01 08:29:29 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/02 15:55:11 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,15 @@ int init_philo_data(t_philo *philo)
         {
             return -1;
         }
-        i++;   
+        i++;
     }
     i = 0;
-    philo->philo_data[0].left_fork = &philo->forks[philo->num_of_philo - 1];
-    philo->philo_data[0].right_fork = &philo->forks[0];
     while (i < philo->num_of_philo)
     {
         philo->philo_data[i].left_fork = &philo->forks[i];
-        philo->philo_data[i].right_fork = &philo->forks[i + 1];
+        philo->philo_data[i].right_fork = &philo->forks[(i + 1) % philo->num_of_philo];
         i++;
     }
-    
     return (init_philo_mutex(philo));
 }
 

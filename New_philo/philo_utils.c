@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:39:44 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/01 07:58:19 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/02 12:42:29 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void print_philo(t_philo_data *philo_data, char *str, t_philo *philo)
     pthread_mutex_lock(&philo->print);
 	pthread_mutex_lock(&philo->die_mutex);
 	if(philo->is_dead == 1)
-    	printf("%lu %d %s\n", time, philo_data->id, str);
+    	printf("%llu %d %s\n", time, philo_data->id, str);
 	pthread_mutex_unlock(&philo->die_mutex);
     pthread_mutex_unlock(&philo->print);
 }
