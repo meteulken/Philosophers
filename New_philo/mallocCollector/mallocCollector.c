@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:23:53 by mulken            #+#    #+#             */
-/*   Updated: 2024/01/28 14:13:59 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/03 02:00:03 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	*new_malloc(t_mallocCollector *mc, size_t size)
 	{
 		write(1, "| new_malloc allocate error >:|       |\n", 40);
 		end_malloc(mc);
-		//exit(1);
+		return (NULL);
 	}
 	new_node = (t_mallocCollector *)malloc(sizeof(t_mallocCollector));
 	if (!new_node)
@@ -47,7 +47,7 @@ void	*new_malloc(t_mallocCollector *mc, size_t size)
 		write(1, "| new_malloc allocate error >:|       |\n", 40);
 		free(ptr);
 		end_malloc(mc);
-		//exit(1);
+		return (NULL);
 	}
 	new_node->new_malloc = ptr;
 	new_node->next = mc->next;
