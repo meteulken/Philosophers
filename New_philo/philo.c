@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:23:58 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/01 08:41:59 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/02 17:43:10 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 
 void philo_eat(t_philo_data *philo_data)
 {
+    if(philo_data->philo->eat_count != -1 && philo_data->eat_count >= philo_data->philo->eat_count)
+        return ;
     pthread_mutex_lock(philo_data->right_fork);
     print_philo(philo_data, "has taken a fork", philo_data->philo);
     pthread_mutex_lock(philo_data->left_fork);
@@ -73,7 +75,7 @@ int start_philo(t_philo *philo)
         pthread_create(&philo->philo_data[i].thread, NULL, &philo_routine, &philo->philo_data[i]);
         i++;
     }
-    if(!philo_die_control(philo))
+    if(philo_die_control(philo))
     {
         pthread_mutex_lock(&philo->die_mutex);
         philo->philo_data->philo->is_dead = 0;
@@ -94,6 +96,8 @@ int main(int argc, char *argv[])
     if (!philo)
         return (write(1, "Error: t_philo allocation error\n", 32), 1);
     philo->mc = malloc_start();
+    if(!philo->mc)
+        return (free(philo), 1);
     init_philo(philo, argv, argc);
     philo->philo_data = (t_philo_data *)new_malloc(philo->mc, sizeof(t_philo_data) * philo->num_of_philo);
     if(!philo->philo_data)
@@ -103,5 +107,5 @@ int main(int argc, char *argv[])
         return (end_malloc(philo->mc), free(philo), 1);
     if(init_philo_data(philo) == -1)
         return (philo_die_all(philo), end_malloc(philo->mc), free(philo), 1);
-    return 0;
+    return (end_malloc(philo->mc), free(philo), 0);
 }

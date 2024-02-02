@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:24:01 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/01 08:38:06 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/02 17:19:22 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,6 @@ void print_philo(t_philo_data *philo_data, char *str, t_philo *philo);
 int start_philo(t_philo *philo);
 int philo_die_control(t_philo *philo);
 int philo_die_all(t_philo *philo);
+int destroy_philo_forks(t_philo *philo, int count);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/30 11:09:39 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/02 15:55:11 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/02 17:30:33 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,12 @@ int init_philo_data(t_philo *philo)
     {
         if (pthread_mutex_init(&philo->forks[i], NULL) != 0)
         {
-            return -1;
+            break;
         }
         i++;
     }
+    if(philo->num_of_philo != i)
+        return (destroy_philo_forks(philo, i));
     i = 0;
     while (i < philo->num_of_philo)
     {
@@ -53,16 +55,54 @@ int init_philo(t_philo *philo, char *argv[], int argc)
     return (0);
 }
 
+int philo_mutex_destroy(t_philo *philo, int count)
+{
+    int i;
+
+    i = 0;
+    while(i < philo->num_of_philo)
+    {
+        pthread_mutex_destroy(&philo->forks[i]);
+        i++;
+    }
+    if(count >= 1)
+        pthread_mutex_destroy(&philo->print);
+    else if (count >= 2)
+        pthread_mutex_destroy(&philo->eat);
+    else if (count >= 3)
+        pthread_mutex_destroy(&philo->sleep);
+    else if (count >= 4)
+        pthread_mutex_destroy(&philo->think);
+    else if (count >= 5)
+        pthread_mutex_destroy(&philo->die);
+    else if (count >= 6)
+        pthread_mutex_destroy(&philo->die_mutex);
+    else if (count >= 7)
+        pthread_mutex_destroy(&philo->eat_last);
+    return (-2);
+}
 
 int init_philo_mutex(t_philo *philo)
 {
-    pthread_mutex_init(&philo->print, NULL);
-    pthread_mutex_init(&philo->eat, NULL);
-    pthread_mutex_init(&philo->sleep, NULL);
-    pthread_mutex_init(&philo->think, NULL);
-    pthread_mutex_init(&philo->die, NULL);
-    pthread_mutex_init(&philo->die_mutex, NULL);
-    pthread_mutex_init(&philo->eat_last, NULL);
+    int i;
+
+    i = 0;
+    if(!pthread_mutex_init(&philo->print, NULL))
+        ++i;
+    if(!pthread_mutex_init(&philo->eat, NULL))
+        ++i;
+    if(!pthread_mutex_init(&philo->sleep, NULL))
+        ++i;
+    if(!pthread_mutex_init(&philo->think, NULL))
+        ++i;
+    if(!pthread_mutex_init(&philo->die, NULL))
+        ++i;
+    if(!pthread_mutex_init(&philo->die_mutex, NULL))
+        ++i;
+    if(!pthread_mutex_init(&philo->eat_last, NULL))
+        ++i;
+    if(i != 7)
+        return (philo_mutex_destroy(philo, i));
     return (init_philo_data_helper(philo));
 }
 
