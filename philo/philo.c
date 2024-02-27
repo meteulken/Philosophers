@@ -6,7 +6,7 @@
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/28 13:23:58 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/03 02:56:26 by mulken           ###   ########.fr       */
+/*   Updated: 2024/02/27 14:36:32 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	philo_eat(t_philo_data *philo_data)
 	print_philo(philo_data, "is eating", philo_data->philo);
 	pthread_mutex_lock(&philo_data->philo->eat);
 	philo_data->eat_count++;
+	philo_data->time_to_start = get_time_for_philo();
 	pthread_mutex_unlock(&philo_data->philo->eat);
 	ft_usleep(philo_data->philo->time_to_eat);
 	pthread_mutex_lock(&philo_data->philo->sleep);
-	philo_data->time_to_start = get_time_for_philo();
 	pthread_mutex_unlock(&philo_data->philo->sleep);
 	pthread_mutex_unlock(philo_data->left_fork);
 	pthread_mutex_unlock(philo_data->right_fork);
