@@ -1,6 +1,8 @@
 # Philosophers
 Philosophers Problem Solution in C
 
++ is_eating silinecek
+
 ## Process vs Theread
 
     Process (İşlem):
