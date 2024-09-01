@@ -2,6 +2,7 @@
 Philosophers Problem Solution in C
 
 + is_eating silinecek
++ &philo->die silinecek
 
 ## Process vs Theread
 
