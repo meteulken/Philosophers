@@ -15,9 +15,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-uint64_t	time_from_start(t_philo *philo)
+u_int64_t	time_from_start(t_philo *philo)
 {
-	return (get_time_for_philo() - philo->start_time);
+	return ((get_time_for_philo() - philo->start_time) - ((get_time_for_philo() - philo->start_time) % philo->time_to_eat));
 }
 
 int	get_time_for_philo(void)
@@ -30,7 +30,7 @@ int	get_time_for_philo(void)
 
 int	ft_usleep(u_int64_t micsec)
 {
-	uint64_t	current;
+	u_int64_t	current;
 
 	current = get_time_for_philo();
 	while (1)
@@ -50,7 +50,7 @@ void	print_philo(t_philo_data *philo_data, char *str, t_philo *philo)
 	pthread_mutex_lock(&philo->print);
 	pthread_mutex_lock(&philo->die_mutex);
 	if (philo->is_dead == 1)
-		printf("%llu %d %s\n", time, philo_data->id, str);
+		printf("%lu %d %s\n", time, philo_data->id, str);
 	pthread_mutex_unlock(&philo->die_mutex);
 	pthread_mutex_unlock(&philo->print);
 }

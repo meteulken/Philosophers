@@ -14,7 +14,7 @@
 # define PHILO_H
 
 # include <pthread.h>
-# include <stdlib.h>
+
 # include "./mallocCollector/mallocCollector.h"
 
 typedef struct s_philo_data
@@ -64,7 +64,7 @@ int			destroy_philo_forks(t_philo *philo, int count);
 int			init_philo(t_philo *philo, char *argv[], int argc);
 int			ft_usleep(u_int64_t micsec);
 void		*philo_routine(void *arg);
-uint64_t	time_from_start(t_philo *philo);
+u_int64_t	time_from_start(t_philo *philo);
 int			get_time_for_philo(void);
 void		print_philo(t_philo_data *philo_data, char *str, t_philo *philo);
 int			start_philo(t_philo *philo);

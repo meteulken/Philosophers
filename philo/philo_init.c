@@ -64,14 +64,16 @@ int	philo_mutex_destroy(t_philo *philo, int count)
 		pthread_mutex_destroy(&philo->forks[i]);
 		i++;
 	}
-	if (count >= 1)
+	if (count > 1)
 		pthread_mutex_destroy(&philo->print);
-	else if (count >= 2)
+	else if (count > 2)
 		pthread_mutex_destroy(&philo->eat);
-	else if (count >= 3)
+	else if (count > 3)
 		pthread_mutex_destroy(&philo->sleep);
-	else if (count >= 4)
+	else if (count > 4)
 		pthread_mutex_destroy(&philo->die);
+	else if (count > 5)
+		pthread_mutex_destroy(&philo->die_mutex);
 	return (-2);
 }
 
@@ -80,17 +82,15 @@ int	init_philo_mutex(t_philo *philo)
 	int	i;
 
 	i = 0;
-	if (!pthread_mutex_init(&philo->print, NULL))
-		++i;
-	if (!pthread_mutex_init(&philo->eat, NULL))
-		++i;
-	if (!pthread_mutex_init(&philo->sleep, NULL))
-		++i;
-	if (!pthread_mutex_init(&philo->die, NULL))
-		++i;
-	if (!pthread_mutex_init(&philo->die_mutex, NULL))
-		++i;
-	if (i != 5)
+	if (i++, (pthread_mutex_init(&philo->print, NULL) != 0))
+		return (philo_mutex_destroy(philo, i));
+	if (i++, (pthread_mutex_init(&philo->eat, NULL) != 0))
+		return (philo_mutex_destroy(philo, i));
+	if (i++, (pthread_mutex_init(&philo->sleep, NULL) != 0))
+		return (philo_mutex_destroy(philo, i));
+	if (i++, (pthread_mutex_init(&philo->die, NULL) != 0))
+		return (philo_mutex_destroy(philo, i));
+	if (i++, (pthread_mutex_init(&philo->die_mutex, NULL) != 0))
 		return (philo_mutex_destroy(philo, i));
 	return (init_philo_data_helper(philo));
 }

@@ -32,22 +32,22 @@ int	must_eating_check(t_philo *philo)
 	}
 	return (1);
 }
-
+#include <stdio.h>
 int	philo_die_control_helper(t_philo *philo, int i)
 {
 	print_philo(&philo->philo_data[i], "died", philo);
-	pthread_mutex_lock(&philo->die_mutex);
+	//pthread_mutex_lock(&philo->die_mutex);
 	philo->philo_data->philo->is_dead = 0;
-	pthread_mutex_unlock(&philo->die_mutex);
-	pthread_mutex_unlock(&philo->die);
-	pthread_mutex_unlock(&philo->sleep);
+	//pthread_mutex_unlock(&philo->die_mutex);
+	//pthread_mutex_unlock(&philo->die);
+	//pthread_mutex_unlock(&philo->sleep);
 	return (0);
 }
 
 int	philo_die_control(t_philo *philo)
 {
 	int			i;
-	uint64_t	time;
+	u_int64_t	time;
 
 	i = 0;
 	while (philo->num_of_philo > 0)
@@ -55,14 +55,14 @@ int	philo_die_control(t_philo *philo)
 		i = 0;
 		while (i < philo->num_of_philo)
 		{
-			pthread_mutex_lock(&philo->die);
-			pthread_mutex_lock(&philo->sleep);
+			//pthread_mutex_lock(&philo->die);
+			//pthread_mutex_lock(&philo->sleep);
 			time = get_time_for_philo();
 			if (time - philo->philo_data[i].time_to_start > philo->time_to_die)
 				return (philo_die_control_helper(philo, i), 0);
-			else
-				pthread_mutex_unlock(&philo->sleep);
-			pthread_mutex_unlock(&philo->die);
+			//else
+			//	pthread_mutex_unlock(&philo->sleep);
+			//pthread_mutex_unlock(&philo->die);
 			i++;
 		}
 		if (must_eating_check(philo))

@@ -28,19 +28,19 @@ void	philo_eat(t_philo_data *philo_data)
 	philo_data->time_to_start = get_time_for_philo();
 	pthread_mutex_unlock(&philo_data->philo->eat);
 	ft_usleep(philo_data->philo->time_to_eat);
-	pthread_mutex_lock(&philo_data->philo->sleep);
-	pthread_mutex_unlock(&philo_data->philo->sleep);
 	pthread_mutex_unlock(philo_data->left_fork);
 	pthread_mutex_unlock(philo_data->right_fork);
 }
 
 void	philo_sleep_think(t_philo_data *philo_data)
-{
+{	
+	pthread_mutex_lock(&philo_data->philo->sleep);
 	print_philo(philo_data, "is sleeping", philo_data->philo);
 	ft_usleep(philo_data->philo->time_to_sleep);
 	print_philo(philo_data, "is thinking", philo_data->philo);
+	pthread_mutex_unlock(&philo_data->philo->sleep);
 }
-
+#include <stdio.h>
 void	*philo_routine(void *arg)
 {
 	t_philo_data	*philo_data;
@@ -62,7 +62,9 @@ void	*philo_routine(void *arg)
 		check = philo_data->philo->is_dead;
 		pthread_mutex_unlock(&philo_data->philo->die_mutex);
 		if (check == 0)
+		{
 			break ;
+		}
 		philo_eat(philo_data);
 		philo_sleep_think(philo_data);
 	}
@@ -93,8 +95,8 @@ int	main(int argc, char *argv[])
 {
 	t_philo	*philo;
 
-	if (argc > 6 || argc < 5)
-		return (write(1, "Error: Wrong number of arguments\n", 33), 1);
+	if (argc > 6 || argc < 5 || ft_atoi(argv[1]) < 1)
+		return (write(1, "Error: Wrong arguments\n", 24), 1);
 	if (argument_control(argv))
 		return (write(1, "Error: Arguments must be positive numbers\n", 42), 1);
 	philo = (t_philo *)malloc(sizeof(t_philo));
