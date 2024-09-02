@@ -5,77 +5,76 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mulken <mulken@student.42kocaeli.com.tr    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/01/28 13:39:44 by mulken            #+#    #+#             */
-/*   Updated: 2024/02/05 17:57:33 by mulken           ###   ########.fr       */
+/*   Created: 2024/09/01 21:59:32 by mulken            #+#    #+#             */
+/*   Updated: 2024/09/02 11:00:06 by mulken           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
-#include <sys/time.h>
-#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 
-uint64_t	time_from_start(t_philo *philo)
+int	ft_philo_atoi(const char *str)
 {
-	return (get_time_for_philo() - philo->start_time);
-}
+	size_t	number;
+	int		i;
 
-int	get_time_for_philo(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return (tv.tv_sec * 1000 + tv.tv_usec / 1000);
-}
-
-int	ft_usleep(u_int64_t micsec)
-{
-	uint64_t	current;
-
-	current = get_time_for_philo();
-	while (1)
+	i = 0;
+	number = 0;
+	while (str[i] == ' ' || (9 <= str[i] && str[i] <= 13))
+		i++;
+	if (str[i] == '+')
+		i++;
+	if (str[i] == '+' || str[i] == '-')
+		return (0);
+	while (str[i])
 	{
-		if (get_time_for_philo() - current >= micsec)
-			break ;
-		usleep(100);
+		if (!(str[i] >= '0' && str[i] <= '9'))
+			return (0);
+		number = number * 10 + str[i] - '0';
+		if (number > 2147483647)
+			return (0);
+		i++;
 	}
-	return (0);
+	if (number == 0)
+		return (0);
+	return (number);
 }
 
-void	print_philo(t_philo_data *philo_data, char *str, t_philo *philo)
+void	ft_putstr_fd(char *s, int fd)
 {
-	u_int64_t	time;
+	int	i;
 
-	time = time_from_start(philo);
-	pthread_mutex_lock(&philo->print);
-	pthread_mutex_lock(&philo->die_mutex);
-	if (philo->is_dead == 1)
-		printf("%llu %d %s\n", time, philo_data->id, str);
-	pthread_mutex_unlock(&philo->die_mutex);
-	pthread_mutex_unlock(&philo->print);
+	i = 0;
+	if (!s)
+		return ;
+	while (s[i])
+	{
+		write(fd, &s[i], 1);
+		i++;
+	}
 }
 
-int	ft_atoi(const char *nptr)
+int	ft_strlen(char *str)
 {
-	int	indx;
-	int	ret;
-	int	sign;
+	int	i;
 
-	indx = 0;
-	ret = 0;
-	sign = 1;
-	while (nptr[indx] == ' ' || (nptr[indx] >= 9 && nptr[indx] <= 13))
-		indx++;
-	if (nptr[indx] == '+' || nptr[indx] == '-')
-	{
-		if (nptr[indx] == '-')
-			sign *= -1;
-		indx++;
-	}
-	while (nptr[indx] >= '0' && nptr[indx] <= '9')
-	{
-		ret = nptr[indx] - 48 + ret * 10;
-		indx++;
-	}
-	return ((ret * sign));
+	i = 0;
+	while (str[i] != '\0')
+		i++;
+	return (i);
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*p;
+	size_t	i;
+
+	i = -1;
+	p = malloc(count * size);
+	if (!p)
+		return (NULL);
+	while (++i, i < count * size)
+		((char *)p)[i] = 0;
+	return (p);
 }
